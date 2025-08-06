@@ -171,7 +171,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          envs: BOT_TOKEN,DB_PASSWORD,POSTGRES_ADMIN_PASSWORD,ENVIRONMENT,BOT_IMAGE,PROJECT_NAME,WEBHOOK_URL,WEBHOOK_SECRET_TOKEN
+          envs: BOT_TOKEN,OPENAI_API_KEY,DB_PASSWORD,POSTGRES_ADMIN_PASSWORD,ENVIRONMENT,BOT_IMAGE,PROJECT_NAME,WEBHOOK_URL,WEBHOOK_SECRET_TOKEN
           script: |
             # Set up deployment directory and permissions
             cd /tmp/${{ github.event.repository.name }}-deploy
@@ -191,6 +191,12 @@ jobs:
             mkdir -p $HOME/${{ github.event.repository.name }}
             cp -r * $HOME/${{ github.event.repository.name }}/
             cd $HOME/${{ github.event.repository.name }}
+            
+            # Debug: Check if required variables are set
+            echo "🔍 Environment variables check:"
+            echo "BOT_TOKEN: ${BOT_TOKEN:0:10}..." 
+            echo "OPENAI_API_KEY: ${OPENAI_API_KEY:0:10}..."
+            echo "PROJECT_NAME: ${PROJECT_NAME}"
             
             # Run simplified production deployment script
             echo "🚀 Starting deployment..."
