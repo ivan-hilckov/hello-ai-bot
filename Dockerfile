@@ -2,7 +2,7 @@
 FROM python:3.12-alpine AS builder
 
 # Install build dependencies
-RUN apk add --no-cache gcc musl-dev
+RUN apk add --no-cache gcc musl-dev rust cargo
 
 # Install uv for fast dependency management
 RUN pip install uv
@@ -21,7 +21,9 @@ RUN uv venv && \
     asyncpg \
     pydantic-settings \
     fastapi \
-    uvicorn
+    uvicorn \
+    openai \
+    tiktoken
 
 # === RUNTIME STAGE ===
 FROM python:3.12-alpine AS runtime
