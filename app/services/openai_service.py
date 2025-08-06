@@ -105,15 +105,17 @@ class OpenAIService:
             logger.error(f"OpenAI rate limit exceeded: {e}")
             raise ValueError(
                 "AI service is currently overloaded. Please try again in a few minutes."
-            )
+            ) from e
 
         except openai.APIError as e:
             logger.error(f"OpenAI API error: {e}")
-            raise ValueError("AI service is temporarily unavailable. Please try again later.")
+            raise ValueError(
+                "AI service is temporarily unavailable. Please try again later."
+            ) from e
 
         except Exception as e:
             logger.error(f"Unexpected error in OpenAI service: {e}")
-            raise ValueError("An unexpected error occurred. Please try again.")
+            raise ValueError("An unexpected error occurred. Please try again.") from e
 
     def count_tokens(self, text: str, model: str) -> int:
         """
