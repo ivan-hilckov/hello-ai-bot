@@ -3,9 +3,9 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "telegram-bot-template"
-version = "3.0.0"
-description = "Production-ready Telegram bot template optimized for AI-assisted development (~335 lines total)"
+name = "hello-ai-bot"
+version = "1.0.0"
+description = "AI-powered Telegram bot with OpenAI integration and role-based prompting system"
 requires-python = ">=3.12"
 
 dependencies = [
@@ -27,6 +27,10 @@ dependencies = [
 
     # Performance optimizations for 2GB RAM
     "uvloop>=0.19.0; sys_platform != 'win32'",  # Faster async event loop
+
+    # AI Integration
+    "openai>=1.0.0",  # OpenAI API client
+    "tiktoken>=0.5.1",  # Token counting for OpenAI models
 ]
 
 [dependency-groups]

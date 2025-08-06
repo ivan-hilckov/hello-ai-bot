@@ -29,8 +29,19 @@ class Settings(BaseSettings):
 
     # Project settings
     project_name: str = Field(
-        default="Hello Bot", description="Project name for greetings and display"
+        default="Hello AI Bot", description="Project name for greetings and display"
     )
+
+    # OpenAI settings
+    openai_api_key: str = Field(default="", description="OpenAI API key")
+    default_ai_model: str = Field(default="gpt-3.5-turbo", description="Default AI model")
+    default_role_prompt: str = Field(
+        default="You are a helpful AI assistant.", description="Default role prompt"
+    )
+
+    # Rate limiting settings
+    max_requests_per_hour: int = Field(default=60, description="Rate limit per user")
+    max_tokens_per_request: int = Field(default=4000, description="Token limit per request")
 
 
 # Global settings instance
