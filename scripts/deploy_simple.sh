@@ -7,7 +7,7 @@ set -e
 echo "🚀 Starting Hello Bot deployment with shared PostgreSQL..."
 
 # Configuration
-DEPLOY_DIR="${HOME}/hello-bot"
+DEPLOY_DIR="${HOME}/hello-ai-bot"
 # Note: We're already in the deployment directory from GitHub Actions
 
 # Validate required environment variables
@@ -29,9 +29,9 @@ docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 # Stop old individual PostgreSQL if running
 echo "🛑 Stopping old individual PostgreSQL containers..."
-docker stop hello-bot_postgres 2>/dev/null || echo "Old PostgreSQL container not running"
-docker stop hello-bot_app 2>/dev/null || echo "Old bot container not running"
-docker stop hello-bot_migration 2>/dev/null || echo "Old migration container not running"
+docker stop hello-ai-bot_postgres 2>/dev/null || echo "Old PostgreSQL container not running"
+docker stop hello-ai-bot_app 2>/dev/null || echo "Old bot container not running"
+docker stop hello-ai-bot_migration 2>/dev/null || echo "Old migration container not running"
 
 # Ensure shared PostgreSQL is running
 echo "🔍 Checking shared PostgreSQL..."
@@ -47,7 +47,7 @@ BOT_TOKEN=${BOT_TOKEN}
 DB_PASSWORD=${DB_PASSWORD}
 ENVIRONMENT=${ENVIRONMENT:-production}
 BOT_IMAGE=${BOT_IMAGE}
-PROJECT_NAME=${PROJECT_NAME:-hello-bot}
+PROJECT_NAME=${PROJECT_NAME:-hello-ai-bot}
 WEBHOOK_URL=${WEBHOOK_URL:-}
 DEBUG=false
 PYTHONOPTIMIZE=1

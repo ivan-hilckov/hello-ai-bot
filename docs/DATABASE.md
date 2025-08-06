@@ -82,7 +82,7 @@ graph LR
     end
     
     subgraph "Isolated Databases"
-        DB1[hello-bot_db]
+        DB1[hello-ai-bot_db]
         DB2[chatbot_db]
         DB3[mybot_db]
     end
@@ -110,8 +110,8 @@ Each bot connects to its isolated database within the shared PostgreSQL instance
 # Connection string format for shared PostgreSQL
 DATABASE_URL = "postgresql+asyncpg://{PROJECT_NAME}_user:{DB_PASSWORD}@postgres-shared:5432/{PROJECT_NAME}_db"
 
-# Example for hello-bot
-DATABASE_URL = "postgresql+asyncpg://hello-bot_user:secure_password@postgres-shared:5432/hello-bot_db"
+# Example for hello-ai-bot
+DATABASE_URL = "postgresql+asyncpg://hello-ai-bot_user:secure_password@postgres-shared:5432/hello-ai-bot_db"
 ```
 
 ### Resource Optimization
@@ -331,10 +331,10 @@ recent = await session.scalars(
 docker compose up -d postgres
 
 # Check database status
-docker compose exec postgres pg_isready -U hello_user -d hello_bot
+docker compose exec postgres pg_isready -U hello_user -d hello_ai_bot
 
 # Connect to database
-docker compose exec postgres psql -U hello_user -d hello_bot
+docker compose exec postgres psql -U hello_user -d hello_ai_bot
 ```
 
 ### Sample Queries
@@ -365,10 +365,10 @@ WHERE is_active = true AND username IS NOT NULL;
 
 ```bash
 # Create backup
-docker compose exec postgres pg_dump -U hello_user hello_bot > backup.sql
+docker compose exec postgres pg_dump -U hello_user hello_ai_bot > backup.sql
 
 # Restore backup
-docker compose exec -i postgres psql -U hello_user hello_bot < backup.sql
+docker compose exec -i postgres psql -U hello_user hello_ai_bot < backup.sql
 ```
 
 ### Database Maintenance

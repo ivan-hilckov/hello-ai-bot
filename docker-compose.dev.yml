@@ -5,9 +5,9 @@ services:
   # PostgreSQL Database (Development)
   postgres:
     image: postgres:15-alpine
-    container_name: hello_bot_postgres_dev
+    container_name: hello_ai_bot_postgres_dev
     environment:
-      POSTGRES_DB: hello_bot
+      POSTGRES_DB: hello_ai_bot
       POSTGRES_USER: hello_user
       POSTGRES_PASSWORD: ${DB_PASSWORD:-dev_password}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
@@ -16,25 +16,25 @@ services:
     ports:
       - "${DB_PORT:-5432}:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U hello_user -d hello_bot" ]
+      test: [ "CMD-SHELL", "pg_isready -U hello_user -d hello_ai_bot" ]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 20s
     restart: unless-stopped
     networks:
-      - hello_bot_dev_network
+      - hello_ai_bot_dev_network
 
   # Telegram Bot Application (Development with Hot Reloading)
   bot-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: hello_bot_dev
+    container_name: hello_ai_bot_dev
     env_file: .env
     environment:
       # Database configuration
-      DATABASE_URL: postgresql+asyncpg://hello_user:${DB_PASSWORD:-dev_password}@postgres:5432/hello_bot
+      DATABASE_URL: postgresql+asyncpg://hello_user:${DB_PASSWORD:-dev_password}@postgres:5432/hello_ai_bot
 
       # Bot configuration
       BOT_TOKEN: ${BOT_TOKEN}
@@ -55,12 +55,12 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - hello_bot_dev_network
+      - hello_ai_bot_dev_network
 
   # Adminer for database management (development only)
   adminer:
     image: adminer:4-standalone
-    container_name: hello_bot_adminer
+    container_name: hello_ai_bot_adminer
     ports:
       - "${ADMINER_PORT:-8080}:8080"
     environment:
@@ -70,13 +70,13 @@ services:
       - postgres
     restart: unless-stopped
     networks:
-      - hello_bot_dev_network
+      - hello_ai_bot_dev_network
 
 volumes:
   postgres_dev_data:
-    name: hello_bot_postgres_dev_data
+    name: hello_ai_bot_postgres_dev_data
 
 networks:
-  hello_bot_dev_network:
-    name: hello_bot_dev_network
+  hello_ai_bot_dev_network:
+    name: hello_ai_bot_dev_network
     driver: bridge

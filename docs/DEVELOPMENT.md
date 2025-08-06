@@ -21,7 +21,7 @@ Quick guide for setting up Hello Bot for local development.
 ```bash
 # Clone and configure
 git clone <repository>
-cd hello-bot
+cd hello-ai-bot
 
 # Copy environment template
 cp .env.example .env
@@ -84,7 +84,7 @@ docker compose -f docker-compose.dev.yml down
 
    ```bash
    # Check user creation
-   docker compose exec postgres psql -U hello_user -d hello_bot -c "
+   docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
    SELECT telegram_id, username, first_name, created_at
    FROM users
    ORDER BY created_at DESC
@@ -92,7 +92,7 @@ docker compose -f docker-compose.dev.yml down
    "
 
    # Count total users
-   docker compose exec postgres psql -U hello_user -d hello_bot -c "
+   docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
    SELECT COUNT(*) as total_users FROM users;
    "
    ```
@@ -118,7 +118,7 @@ source .venv/bin/activate  # Linux/macOS
 ```bash
 # Start PostgreSQL in Docker
 docker run -d --name postgres-local \
-  -e POSTGRES_DB=hello_bot \
+  -e POSTGRES_DB=hello_ai_bot \
   -e POSTGRES_USER=hello_user \
   -e POSTGRES_PASSWORD=local_password_123 \
   -p 5432:5432 \
@@ -130,7 +130,7 @@ docker run -d --name postgres-local \
 ```bash
 # Set environment variables
 export BOT_TOKEN="your_token_here"
-export DATABASE_URL="postgresql+asyncpg://hello_user:local_password_123@localhost:5432/hello_bot"
+export DATABASE_URL="postgresql+asyncpg://hello_user:local_password_123@localhost:5432/hello_ai_bot"
 
 # Apply database migrations
 # Database tables created automatically on startup
@@ -268,7 +268,7 @@ curl https://api.telegram.org/bot$BOT_TOKEN/getMe
 
 ```bash
 # Test database connection
-docker compose exec postgres pg_isready -U hello_user -d hello_bot
+docker compose exec postgres pg_isready -U hello_user -d hello_ai_bot
 
 # Check database logs
 docker compose logs postgres
@@ -353,7 +353,7 @@ ENVIRONMENT=development
 DEBUG=true
 
 # Database (auto-configured in Docker)
-DATABASE_URL=postgresql+asyncpg://hello_user:local_password_123@postgres:5432/hello_bot
+DATABASE_URL=postgresql+asyncpg://hello_user:local_password_123@postgres:5432/hello_ai_bot
 ```
 
 ## Testing Changes
@@ -370,17 +370,17 @@ DATABASE_URL=postgresql+asyncpg://hello_user:local_password_123@postgres:5432/he
 
 ```bash
 # View all users
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT telegram_id, username, first_name, created_at FROM users;
 "
 
 # Count total users
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT COUNT(*) as total_users FROM users;
 "
 
 # Recent activity (last hour)
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT * FROM users WHERE created_at > NOW() - INTERVAL '1 hour';
 "
 ```
@@ -402,14 +402,14 @@ df -h    # Disk usage
 
 ```bash
 # Database connection info
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT count(*) as active_connections
 FROM pg_stat_activity
 WHERE state = 'active';
 "
 
 # Table statistics
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT schemaname, tablename, n_tup_ins, n_tup_upd
 FROM pg_stat_user_tables;
 "

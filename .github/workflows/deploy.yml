@@ -162,7 +162,7 @@ jobs:
           POSTGRES_ADMIN_PASSWORD: ${{ secrets.POSTGRES_ADMIN_PASSWORD }}
           ENVIRONMENT: ${{ github.event.inputs.environment || 'production' }}
           BOT_IMAGE: ${{ env.IMAGE_NAME }}:latest
-          PROJECT_NAME: hello-bot
+          PROJECT_NAME: hello-ai-bot
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           WEBHOOK_SECRET_TOKEN: ${{ secrets.WEBHOOK_SECRET_TOKEN }}
         with:

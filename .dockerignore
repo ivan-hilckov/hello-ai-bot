@@ -54,7 +54,7 @@ docker-compose.override.yml
 tmp/
 temp/
 backup/
-hello-bot-backup/
+hello-ai-bot-backup/
 
 # Build artifacts
 dist/

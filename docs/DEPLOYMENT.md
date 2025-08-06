@@ -37,7 +37,7 @@ sudo usermod -aG docker $USER
 sudo apt install docker-compose-plugin
 
 # Create deployment directory
-mkdir -p $HOME/hello-bot
+mkdir -p $HOME/hello-ai-bot
 
 # Logout and login again for Docker group to take effect
 ```
@@ -45,7 +45,7 @@ mkdir -p $HOME/hello-bot
 **Test VPS readiness**:
 ```bash
 # Download and run simplified VPS check
-curl -fsSL https://raw.githubusercontent.com/your-repo/hello-bot/main/scripts/check_vps_simple.sh -o check_vps.sh
+curl -fsSL https://raw.githubusercontent.com/your-repo/hello-ai-bot/main/scripts/check_vps_simple.sh -o check_vps.sh
 chmod +x check_vps.sh
 ./check_vps.sh
 ```
@@ -109,7 +109,7 @@ git push origin main
 ssh user@your-vps-ip
 
 # Check services
-cd $HOME/hello-bot
+cd $HOME/hello-ai-bot
 docker compose --profile production ps
 
 # Check logs
@@ -123,7 +123,7 @@ docker compose --profile production logs -f bot
 
 ```bash
 # Check user creation
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT telegram_id, username, first_name, created_at
 FROM users
 ORDER BY created_at DESC
@@ -131,7 +131,7 @@ LIMIT 5;
 "
 
 # Count users
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT COUNT(*) as total_users FROM users;
 "
 ```
@@ -162,7 +162,7 @@ ENVIRONMENT=production
 DEBUG=false
 
 # Database
-DATABASE_URL=postgresql+asyncpg://hello_user:password@postgres:5432/hello_bot
+DATABASE_URL=postgresql+asyncpg://hello_user:password@postgres:5432/hello_ai_bot
 DB_PASSWORD=from_github_secrets
 
 # Optional webhook
@@ -181,7 +181,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: hello_bot
+      POSTGRES_DB: hello_ai_bot
       POSTGRES_USER: hello_user
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
@@ -192,7 +192,7 @@ services:
       - postgres
     environment:
       BOT_TOKEN: ${BOT_TOKEN}
-      DATABASE_URL: postgresql+asyncpg://hello_user:${DB_PASSWORD}@postgres:5432/hello_bot
+      DATABASE_URL: postgresql+asyncpg://hello_user:${DB_PASSWORD}@postgres:5432/hello_ai_bot
       ENVIRONMENT: production
       WEBHOOK_URL: ${WEBHOOK_URL:-}
 
@@ -209,7 +209,7 @@ volumes:
 sudo apt install nginx
 
 # Create config
-sudo nano /etc/nginx/sites-available/hello-bot
+sudo nano /etc/nginx/sites-available/hello-ai-bot
 ```
 
 **Nginx config**:
@@ -230,7 +230,7 @@ server {
 **Enable and restart**:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/hello-bot /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/hello-ai-bot /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 ```
 
@@ -259,10 +259,10 @@ docker compose ps | grep bot
 docker compose logs bot --tail=50 --since=1h
 
 # Check database connectivity
-docker compose exec postgres pg_isready -U hello_user -d hello_bot
+docker compose exec postgres pg_isready -U hello_user -d hello_ai_bot
 
 # Resource usage
-docker stats --no-stream | grep hello-bot
+docker stats --no-stream | grep hello-ai-bot
 ```
 
 ### Log Analysis
@@ -303,7 +303,7 @@ curl https://api.telegram.org/bot$BOT_TOKEN/getMe
 docker compose exec postgres pg_isready
 
 # Check connections
-docker compose exec postgres psql -U hello_user -d hello_bot -c "
+docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
 SELECT count(*) FROM pg_stat_activity;
 "
 
@@ -320,7 +320,7 @@ docker compose up -d
 
 # Manual deploy
 ssh user@vps
-cd $HOME/hello-bot
+cd $HOME/hello-ai-bot
 git pull origin main
 docker compose build --no-cache
 docker compose up -d
@@ -385,22 +385,22 @@ docker compose restart
 
 ```bash
 # Create backup
-docker compose exec postgres pg_dump -U hello_user hello_bot > backup_$(date +%Y%m%d).sql
+docker compose exec postgres pg_dump -U hello_user hello_ai_bot > backup_$(date +%Y%m%d).sql
 
 # Restore backup
-docker compose exec -i postgres psql -U hello_user hello_bot < backup_20240103.sql
+docker compose exec -i postgres psql -U hello_user hello_ai_bot < backup_20240103.sql
 ```
 
 ### Full System Backup
 
 ```bash
 # Backup docker-compose and data
-tar -czf hello-bot-backup_$(date +%Y%m%d).tar.gz \
-  $HOME/hello-bot/docker-compose.yml \
-  $HOME/hello-bot/.env
+tar -czf hello-ai-bot-backup_$(date +%Y%m%d).tar.gz \
+  $HOME/hello-ai-bot/docker-compose.yml \
+  $HOME/hello-ai-bot/.env
 
 # Backup database data
-docker run --rm -v hello-bot_postgres_data:/data -v $(pwd):/backup \
+docker run --rm -v hello-ai-bot_postgres_data:/data -v $(pwd):/backup \
   alpine tar czf /backup/postgres_data_$(date +%Y%m%d).tar.gz /data
 ```
 
@@ -426,7 +426,7 @@ sudo systemctl enable docker
 
 ```bash
 # Secure .env file
-chmod 600 $HOME/hello-bot/.env
+chmod 600 $HOME/hello-ai-bot/.env
 
 # Check for sensitive data in logs
 docker compose logs bot | grep -i "token\|password\|secret"

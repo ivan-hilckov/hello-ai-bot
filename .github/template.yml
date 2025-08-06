@@ -18,7 +18,7 @@ tags:
 exclude:
   - CHANGELOG.md
   - TODO.md
-  - hello_bot.egg-info/
+  - hello_ai_bot.egg-info/
   - .github/template.yml
 
 # Default branch for new repositories

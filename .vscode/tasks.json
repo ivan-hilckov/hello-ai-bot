@@ -51,7 +51,7 @@
             "command": "docker",
             "args": [
                 "logs",
-                "hello_bot_dev",
+                "hello_ai_bot_dev",
                 "--tail=50",
                 "-f"
             ],

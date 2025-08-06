@@ -63,7 +63,7 @@ graph TB
     subgraph "VPS Server (2GB RAM)"
         subgraph "Shared PostgreSQL Container (512MB)"
             DB[(PostgreSQL 15)]
-            DB1[hello-bot_db]
+            DB1[hello-ai-bot_db]
             DB2[chatbot_db] 
             DB3[mybot_db]
             
@@ -108,10 +108,10 @@ graph TB
 Each bot gets its own isolated database and user:
 
 ```sql
--- Example for hello-bot deployment
-CREATE DATABASE "hello-bot_db";
-CREATE USER "hello-bot_user" WITH ENCRYPTED PASSWORD 'secure_password';
-GRANT ALL PRIVILEGES ON DATABASE "hello-bot_db" TO "hello-bot_user";
+-- Example for hello-ai-bot deployment
+CREATE DATABASE "hello-ai-bot_db";
+CREATE USER "hello-ai-bot_user" WITH ENCRYPTED PASSWORD 'secure_password';
+GRANT ALL PRIVILEGES ON DATABASE "hello-ai-bot_db" TO "hello-ai-bot_user";
 ```
 
 ### Configuration Changes
@@ -162,7 +162,7 @@ networks:
 ## Simplified Project Structure
 
 ```
-hello-bot/
+hello-ai-bot/
 ├── app/                     # Main application code (~320 lines total)
 │   ├── __init__.py         # Empty module file
 │   ├── main.py             # Simple entry point (90 lines)

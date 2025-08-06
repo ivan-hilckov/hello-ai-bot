@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     # Required settings
     bot_token: str = Field(default="", description="Telegram Bot Token from BotFather")
     database_url: str = Field(
-        default="postgresql+asyncpg://hello_user:password@localhost:5432/hello_bot",
+        default="postgresql+asyncpg://hello_user:password@localhost:5432/hello_ai_bot",
         description="Database connection URL",
     )
 

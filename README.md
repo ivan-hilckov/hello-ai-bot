@@ -185,7 +185,7 @@ uv run ruff check .                  # Lint (no errors)
 uv run pytest tests/ -v              # Run tests
 
 # Database access
-docker compose -f docker-compose.dev.yml exec postgres psql -U postgres hello_bot
+docker compose -f docker-compose.dev.yml exec postgres psql -U postgres hello_ai_bot
 ```
 
 ### Local Development Workflow
