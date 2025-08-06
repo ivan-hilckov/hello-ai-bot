@@ -18,6 +18,10 @@ for var in BOT_TOKEN OPENAI_API_KEY DB_PASSWORD ENVIRONMENT BOT_IMAGE PROJECT_NA
     fi
 done
 
+# Set default SERVER_PORT if not provided
+SERVER_PORT=${SERVER_PORT:-8000}
+echo "📝 Using SERVER_PORT: ${SERVER_PORT}"
+
 # Debug: Show current directory and files
 echo "📁 Current directory: $(pwd)"
 echo "📁 Available files:"
@@ -50,6 +54,7 @@ ENVIRONMENT=${ENVIRONMENT:-production}
 BOT_IMAGE=${BOT_IMAGE}
 PROJECT_NAME=${PROJECT_NAME:-hello-ai-bot}
 WEBHOOK_URL=${WEBHOOK_URL:-}
+SERVER_PORT=${SERVER_PORT:-8000}
 DEBUG=false
 PYTHONOPTIMIZE=1
 PYTHONDONTWRITEBYTECODE=1

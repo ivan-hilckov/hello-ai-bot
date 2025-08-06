@@ -70,6 +70,7 @@ POSTGRES_ADMIN_PASSWORD=shared_postgres_admin_password  # NEW for v2.1.0+
 ```
 WEBHOOK_URL=https://yourdomain.com/webhook
 WEBHOOK_SECRET_TOKEN=random_webhook_secret
+SERVER_PORT=8001  # Custom port to avoid conflicts (default: 8000)
 ```
 
 **Docker Hub Secrets** (for custom images):
@@ -151,6 +152,28 @@ docker compose logs postgres --tail=10
 
 ## Configuration
 
+### Port Configuration
+
+To avoid port conflicts when running multiple bots, you can configure a custom port:
+
+**Using GitHub Secrets (Recommended):**
+1. Go to your repository → Settings → Secrets and variables → Actions
+2. Add `SERVER_PORT` secret with your desired port (e.g., `8001`, `8002`, etc.)
+
+**Using Environment Variables:**
+```bash
+# Set custom port in your VPS
+export SERVER_PORT=8001
+
+# Or add to .env file
+echo "SERVER_PORT=8001" >> .env
+```
+
+**Port Assignment Examples:**
+- Bot 1: `SERVER_PORT=8000` (default)
+- Bot 2: `SERVER_PORT=8001`  
+- Bot 3: `SERVER_PORT=8002`
+
 ### Environment Variables
 
 **Production `.env` (auto-generated)**:
@@ -167,6 +190,7 @@ DB_PASSWORD=from_github_secrets
 
 # Optional webhook
 WEBHOOK_URL=https://yourdomain.com/webhook
+SERVER_PORT=8000  # Configurable port (default: 8000)
 ```
 
 ### Docker Compose
@@ -220,7 +244,7 @@ server {
     server_name yourdomain.com;
 
     location /webhook {
-        proxy_pass http://localhost:8000;
+        proxy_pass http://localhost:8000;  # Update this port if using custom SERVER_PORT
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }

@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     # Optional webhook for production
     webhook_url: str | None = Field(default=None, description="Webhook URL for production")
 
+    # Server port configuration
+    server_port: int = Field(default=8000, description="Server port for webhook mode")
+
     # Project settings
     project_name: str = Field(
         default="Hello AI Bot", description="Project name for greetings and display"
