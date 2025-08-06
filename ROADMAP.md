@@ -1,4 +1,4 @@
-# Hello AI Bot (HB-002.1) - Implementation Roadmap
+# Hello AI Bot (HB-002.2) - Implementation Roadmap
 
 ## 🎯 Project Overview
 
