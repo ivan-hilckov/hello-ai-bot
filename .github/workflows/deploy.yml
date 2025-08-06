@@ -158,6 +158,7 @@ jobs:
         uses: appleboy/ssh-action@v1.1.0
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           POSTGRES_ADMIN_PASSWORD: ${{ secrets.POSTGRES_ADMIN_PASSWORD }}
           ENVIRONMENT: ${{ github.event.inputs.environment || 'production' }}

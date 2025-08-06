@@ -11,7 +11,7 @@ DEPLOY_DIR="${HOME}/hello-ai-bot"
 # Note: We're already in the deployment directory from GitHub Actions
 
 # Validate required environment variables
-for var in BOT_TOKEN DB_PASSWORD ENVIRONMENT BOT_IMAGE PROJECT_NAME; do
+for var in BOT_TOKEN OPENAI_API_KEY DB_PASSWORD ENVIRONMENT BOT_IMAGE PROJECT_NAME; do
     if [[ -z "${!var:-}" ]]; then
         echo "❌ Missing required variable: $var"
         exit 1
@@ -44,6 +44,7 @@ echo "📊 Setting up database for ${PROJECT_NAME}..."
 echo "📝 Creating production environment..."
 cat > .env << EOF
 BOT_TOKEN=${BOT_TOKEN}
+OPENAI_API_KEY=${OPENAI_API_KEY}
 DB_PASSWORD=${DB_PASSWORD}
 ENVIRONMENT=${ENVIRONMENT:-production}
 BOT_IMAGE=${BOT_IMAGE}
