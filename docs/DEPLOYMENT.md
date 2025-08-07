@@ -1,6 +1,6 @@
 # Production Deployment Guide
 
-Deploy simplified Hello Bot to VPS with automated CI/CD via GitHub Actions.
+Deploy Hello AI Bot with OpenAI integration to VPS using automated CI/CD via GitHub Actions.
 
 ## Prerequisites
 
@@ -61,6 +61,7 @@ VPS_HOST=your.vps.ip.address
 VPS_USER=your-username
 VPS_PORT=22
 BOT_TOKEN=your_telegram_bot_token
+OPENAI_API_KEY=sk-your-openai-api-key-here
 DB_PASSWORD=secure_random_password_123
 POSTGRES_ADMIN_PASSWORD=shared_postgres_admin_password  # NEW for v2.1.0+
 ```

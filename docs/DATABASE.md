@@ -1,6 +1,6 @@
 # Database Documentation
 
-Database schema and models for the simplified Hello Bot architecture.
+Database schema and models for Hello AI Bot with AI conversation tracking and user role management.
 
 ## Database Schema
 
@@ -17,6 +17,30 @@ erDiagram
         timestamp created_at "Creation timestamp"
         timestamp updated_at "Last update timestamp"
     }
+
+    USER_ROLES {
+        int id PK "Internal role ID"
+        int user_id FK "Reference to user"
+        varchar(50) role_name "AI role name"
+        text role_prompt "AI system prompt"
+        timestamp created_at "Creation timestamp"
+        timestamp updated_at "Last update timestamp"
+    }
+
+    CONVERSATIONS {
+        int id PK "Internal conversation ID"
+        int user_id FK "Reference to user"
+        text user_message "User's input message"
+        text ai_response "AI generated response"
+        varchar(50) model_used "OpenAI model name"
+        int tokens_used "Total tokens consumed"
+        varchar(50) role_used "Role name used"
+        timestamp created_at "Creation timestamp"
+        timestamp updated_at "Last update timestamp"
+    }
+
+    USERS ||--o| USER_ROLES : "has role"
+    USERS ||--o{ CONVERSATIONS : "has conversations"
 ```
 
 ## Technology Stack

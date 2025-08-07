@@ -1,6 +1,6 @@
 # Local Development Setup
 
-Quick guide for setting up Hello Bot for local development.
+Quick guide for setting up Hello AI Bot with OpenAI integration for local development.
 
 ## Prerequisites
 
@@ -34,6 +34,7 @@ nano .env  # or code .env
 
 ```env
 BOT_TOKEN=your_real_token_from_botfather
+OPENAI_API_KEY=sk-your-openai-api-key-here
 DB_PASSWORD=local_password_123
 ENVIRONMENT=development
 DEBUG=true
@@ -56,19 +57,24 @@ docker compose -f docker-compose.dev.yml down
 
 **Services Started**:
 
-- **PostgreSQL**: Database server
-- **Bot**: Simple Telegram bot with clean architecture
+- **PostgreSQL**: Database server with AI conversation tracking
+- **Bot**: AI-powered Telegram bot with clean architecture
+  - OpenAI API integration for intelligent responses
+  - Role-based prompting system
+  - Conversation history storage
   - Direct database operations
   - Standard Python logging
-  - Simple handler structure
+  - Enhanced handler structure
 
 ### 4. Verify Setup
 
 1. **Test Bot Functionality**:
 
    - Find your bot in Telegram (search by username)
-   - Send `/start` → should respond with personalized greeting
-   - User should be stored in database
+   - Send `/start` → should respond with enhanced greeting showing AI capabilities
+   - Send any text message → should get intelligent AI response
+   - Send `/do <question>` → should get AI response via explicit command
+   - User should be stored in database with conversation history
 
 2. **Check Services**:
 
@@ -83,11 +89,16 @@ docker compose -f docker-compose.dev.yml down
 3. **Verify Database**:
 
    ```bash
-   # Check user creation
+   # Check user creation and AI conversations
    docker compose exec postgres psql -U hello_user -d hello_ai_bot -c "
-   SELECT telegram_id, username, first_name, created_at
-   FROM users
-   ORDER BY created_at DESC
+   SELECT u.telegram_id, u.username, u.first_name, 
+          ur.role_name, ur.role_prompt,
+          COUNT(c.id) as conversation_count
+   FROM users u
+   LEFT JOIN user_roles ur ON u.id = ur.user_id
+   LEFT JOIN conversations c ON u.id = c.user_id
+   GROUP BY u.id, ur.id
+   ORDER BY u.created_at DESC
    LIMIT 5;
    "
 
@@ -130,6 +141,7 @@ docker run -d --name postgres-local \
 ```bash
 # Set environment variables
 export BOT_TOKEN="your_token_here"
+export OPENAI_API_KEY="sk-your-openai-api-key-here"
 export DATABASE_URL="postgresql+asyncpg://hello_user:local_password_123@localhost:5432/hello_ai_bot"
 
 # Apply database migrations

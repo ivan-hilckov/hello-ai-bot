@@ -1,6 +1,6 @@
 # Technology Stack Reference
 
-Complete reference of all technologies, frameworks, and tools used in Hello Bot template.
+Complete reference of all technologies, frameworks, and tools used in Hello AI Bot with OpenAI integration.
 
 ## Core Technologies
 
@@ -54,6 +54,22 @@ Complete reference of all technologies, frameworks, and tools used in Hello Bot 
 - **Documentation**: [fastapi.tiangolo.com](https://fastapi.tiangolo.com/)
 - **Repository**: [github.com/tiangolo/fastapi](https://github.com/tiangolo/fastapi)
 - **Usage**: Simple webhook endpoint, health checks
+
+## AI Integration
+
+### OpenAI API
+- **Purpose**: AI conversation generation and processing
+- **Why**: Industry-leading language models, reliable API, excellent Python support
+- **Documentation**: [platform.openai.com/docs](https://platform.openai.com/docs)
+- **Repository**: [github.com/openai/openai-python](https://github.com/openai/openai-python)
+- **Models**: GPT-3.5-turbo, GPT-4, GPT-4o, GPT-4o-mini
+
+### tiktoken
+- **Purpose**: Token counting and management for OpenAI models
+- **Why**: Accurate token counting, cost control, request optimization
+- **Documentation**: [github.com/openai/tiktoken](https://github.com/openai/tiktoken)
+- **Repository**: [github.com/openai/tiktoken](https://github.com/openai/tiktoken)
+- **Usage**: Token limits, cost estimation, request optimization
 
 
 

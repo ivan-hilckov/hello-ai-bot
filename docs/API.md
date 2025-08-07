@@ -1,17 +1,19 @@
 # Bot API Documentation
 
-Commands, handlers, and API interactions for the simplified Hello Bot.
+Commands, handlers, and API interactions for Hello AI Bot with OpenAI integration.
 
 ## Bot Commands
 
 | Command  | Description               | Response                         | Database Action             |
 | -------- | ------------------------- | -------------------------------- | --------------------------- |
-| `/start` | Get personalized greeting | `Hello! Welcome to the bot, <username>` | Creates/updates user record |
-| _other_  | Any other message         | `Send /start to get a greeting!` | None                        |
+| `/start` | Get personalized greeting | Enhanced greeting with bot info and commands | Creates/updates user record |
+| `/do <message>` | Direct AI interaction | AI-generated response based on user role | Saves conversation history |
+| _any text_ | AI conversation         | Intelligent AI response with context | Saves conversation to database |
+| _predefined queries_ | Creator/repository info | Pre-defined responses for common questions | None |
 
-## Simplified Architecture
+## Enhanced Architecture
 
-All handlers are located in a single file: `app/handlers.py`
+All handlers with AI integration located in a single file: `app/handlers.py`
 
 ### Handler Structure
 
@@ -20,17 +22,23 @@ from aiogram import F, Router, types
 from aiogram.filters import Command
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.services.openai_service import OpenAIService
 
 router = Router()
 
 @router.message(Command("start"))
 async def start_handler(message: types.Message, session: AsyncSession) -> None:
-    # Direct database operations without service layer
+    # Enhanced greeting with bot capabilities
+    pass
+
+@router.message(Command("do"))
+async def do_ai_handler(message: types.Message, session: AsyncSession) -> None:
+    # Direct AI interaction via command
     pass
 
 @router.message(F.text)
-async def default_handler(message: types.Message) -> None:
-    # Simple response handler
+async def default_handler(message: types.Message, session: AsyncSession) -> None:
+    # AI-powered response to any text message
     pass
 ```
 
@@ -41,9 +49,10 @@ async def default_handler(message: types.Message) -> None:
 **Handler**: `app/handlers.py:start_handler()`
 
 **Purpose**:
-- Welcome new users to the bot
+- Welcome new users with comprehensive bot information
 - Create or update user record in database using direct SQLAlchemy operations
-- Provide personalized greeting
+- Provide enhanced greeting with AI capabilities and available commands
+- Show bot features and usage instructions
 
 **Flow**:
 
@@ -121,11 +130,24 @@ async def start_handler(message: types.Message, session: AsyncSession) -> None:
 
 **Response Format**:
 
-```
-HTML format message:
-"Hello! Welcome to the bot, <b>username</b>"
+```html
+Enhanced HTML greeting with bot information:
+"Hello! Welcome to Hello AI Bot, 😎 <b>username</b>
 
-Where display_name is:
+🤖 What I can do:
+• Answer questions and have conversations
+• Help with various tasks using AI
+• Process any text message you send
+
+📋 Commands:
+• /start - Show this welcome message
+• /do <message> - Chat with AI (optional)
+• Just type any message - I'll respond with AI
+
+🔗 Source code: https://github.com/ivan-hilckov/hello-ai-bot
+💡 Built with aiogram 3.0 + OpenAI API"
+
+Where display_name follows same priority:
 1. username (if available)
 2. first_name + last_name (if username not available)
 3. "User{telegram_id}" (fallback)
@@ -147,32 +169,55 @@ INSERT INTO users (telegram_id, username, first_name, last_name, language_code, 
 VALUES ($1, $2, $3, $4, $5, true, NOW(), NOW());
 ```
 
-### Default Handler
+### AI Text Handler (Default)
 
 **Handler**: `app/handlers.py:default_handler()`
 
 **Purpose**:
-- Handle all text messages that don't match specific commands
-- Provide guidance to users
+- Process any text message through OpenAI API
+- Provide intelligent AI responses using user's role prompt
+- Save conversation history to database
+- Handle predefined responses for specific queries
 
 **Code Implementation**:
 
 ```python
 @router.message(F.text)
-async def default_handler(message: types.Message) -> None:
-    """Handle all other text messages."""
-    await message.answer("Send /start to get a greeting!")
+async def default_handler(message: types.Message, session: AsyncSession) -> None:
+    """Handle all text messages through AI service."""
+    if not message.text:
+        return
 
-    if message.from_user:
-        logger.info(
-            f"Received message from {message.from_user.username or message.from_user.first_name}"
-        )
+    # Process any text message through AI
+    await process_ai_message(message, session, message.text)
 ```
 
-**Response**:
-```
-"Send /start to get a greeting!"
-```
+**Response Processing**:
+1. **Check predefined responses** (creator info, repository info)
+2. **Initialize OpenAI service** if no predefined match
+3. **Get user role** and conversation context
+4. **Generate AI response** with token management
+5. **Save conversation** to database
+6. **Return intelligent response** to user
+
+### `/do` Command Handler
+
+**Handler**: `app/handlers.py:do_ai_handler()`
+
+**Purpose**:
+- Explicit AI interaction command
+- Same functionality as default handler but with command syntax
+- Useful for users who prefer explicit commands
+
+**Usage**: `/do <your message>`
+
+**Example**: `/do Explain quantum physics`
+
+### Predefined Responses
+
+**System includes predefined responses for**:
+- Creator information (triggered by: создатель, creator, автор, author, разработчик, developer)
+- Repository information (triggered by: репозиторий, repository, github, код, source code)
 
 ## Middleware Integration
 

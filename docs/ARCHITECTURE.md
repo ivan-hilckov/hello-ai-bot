@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Technical overview of the simplified Hello Bot application architecture and implementation.
+Technical overview of Hello AI Bot with OpenAI integration - simplified architecture with advanced AI capabilities.
 
 ## Application Flow
 
@@ -17,23 +17,37 @@ graph TD
     E --> F[Database Middleware<br/>Injects AsyncSession]
     F --> G{Message Handler}
 
-    G -->|/start command| H[Start Handler<br/>app/handlers.py]
-    G -->|Other messages| I[Default Handler<br/>app/handlers.py]
+    G -->|/start command| H[Start Handler<br/>Enhanced greeting with AI info]
+    G -->|/do command| I[AI Command Handler<br/>Direct AI interaction]
+    G -->|Any text| J[AI Text Handler<br/>Smart conversation]
 
-    H --> J[Direct DB Operations<br/>Get/Create User]
-    I --> K[Send response]
+    H --> K[Direct DB Operations<br/>Get/Create User + UserRole]
+    I --> M[AI Processing<br/>OpenAI Service]
+    J --> N[Check Predefined<br/>Then AI Processing]
 
-    J --> L[Send personalized greeting]
+    K --> L[Send enhanced greeting]
+    M --> O[Save Conversation<br/>Return AI Response]
+    N --> O
 
     subgraph "Database"
-        M[PostgreSQL 15]
-        N[SQLAlchemy 2.0 Async]
-        O[User Model<br/>app/database.py]
+        P[PostgreSQL 15]
+        Q[SQLAlchemy 2.0 Async]
+        R[User + UserRole + Conversation<br/>app/database.py]
     end
 
-    J --> N
-    N --> M
-    N --> O
+    subgraph "AI Integration"
+        S[OpenAI Service<br/>app/services/openai_service.py]
+        T[Token Management]
+        U[Role-based Prompting]
+    end
+
+    K --> Q
+    M --> S
+    N --> S
+    Q --> P
+    Q --> R
+    S --> T
+    S --> U
 
     subgraph "Configuration"
         P[Settings<br/>app/config.py]
